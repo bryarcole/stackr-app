@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using Stackr_Api.DTO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,28 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapPost("/CreateStack", async (HttpContext httpContext) =>{
+
+    var requestBody = await JsonSerializer.DeserializeAsync<CreateStackRequest>(httpContext.Request.Body);
+
+    if (requestBody == null || string.IsNullOrEmpty(requestBody.Title)){
+        return Results.BadRequest("Title is required.");
+    }
+
+    // File path for the new JSON file
+    var fileName = $"{requestBody.Title.Replace(" ", "_")}.json";
+    var filePath = Path.Combine("Stacks", fileName);;
+
+    Directory.CreateDirectory("Stacks");
+
+    var fileContent = JsonSerializer.Serialize(requestBody);
+    await File.WriteAllTextAsync(filePath, fileContent);
+
+    return Results.Ok($"Stack file created successfully: {filePath}");
+
+});
+
 
 app.MapPost("/PostStackRanks", async (HttpContext httpContext,[FromServices] IRankingCountService rankingCountService) =>
 {
