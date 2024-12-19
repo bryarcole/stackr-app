@@ -64,3 +64,4 @@
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/obj/Debug/net9.0/Stackr-Api.pdb
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/obj/Debug/net9.0/Stackr-Api.genruntimeconfig.cache
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/obj/Debug/net9.0/ref/Stackr-Api.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/obj/Debug/net9.0/Stackr-Api.sourcelink.json

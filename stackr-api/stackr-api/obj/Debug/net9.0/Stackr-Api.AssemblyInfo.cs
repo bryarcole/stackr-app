@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Stackr-Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9586ebfcaa762cb711ffa4809a599f750d467dc7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Stackr-Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Stackr-Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
