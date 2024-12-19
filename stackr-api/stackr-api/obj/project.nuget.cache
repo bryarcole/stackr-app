@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "+E467AKig2s=",
+  "success": true,
+  "projectFilePath": "/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/Stackr-Api.csproj",
+  "expectedPackageFiles": [
+    "/Users/bryarcole/.nuget/packages/microsoft.aspnetcore.openapi/9.0.0/microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
