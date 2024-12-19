@@ -16,12 +16,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/StackRankings", async (HttpContext httpContext,[FromServices] IRankingCountService rankingCountService) =>
+app.MapPost("/PostStackRanks", async (HttpContext httpContext,[FromServices] IRankingCountService rankingCountService) =>
 {
     try{
         var rankings = await httpContext.Request.ReadFromJsonAsync<List<List<string>>>();
 
-        if(rankings.Count > 1 || !rankings.Any()){
+        if(rankings.Count < 1 || !rankings.Any()){
             return Results.BadRequest("Must have items to Rank");
         }
 
@@ -33,7 +33,7 @@ app.MapPost("/StackRankings", async (HttpContext httpContext,[FromServices] IRan
     };
 });
 
-app.MapGet("/rankingResults", ([FromServices] IRankingCountService rankingCountService) =>{
+app.MapGet("/GetRankResults", ([FromServices] IRankingCountService rankingCountService) =>{
     var testRankings = new List<List<string>>{
         new List<string> {"Tom Brady", "John Elway", "Troy Aikman"},
         new List<string> {"Tom Brady", "Brett Farve", "Aaron Rodgers"},
