@@ -1,5 +1,5 @@
 
-public interface IBordaCountService
+public interface IRankingCountServices
 {
-    List<KeyValuePair<string, double>> CalculateBordaScores(List<List<string>> rankings);
+    List<KeyValuePair<string, double>> CalculateRankScores(List<List<string>> rankings);
 }

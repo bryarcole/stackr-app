@@ -1,6 +1,6 @@
-public class BordaCountService : IBordaCountService
+public class RankingCountService : IRankingCountService
 {
-    public List<KeyValuePair<string, double>> CalculateBordaScores(List<List<string>> rankings)
+    public List<KeyValuePair<string, double>> CalculateRankScores(List<List<string>> rankings)
     {
         var scores = new Dictionary<string, double>();
 

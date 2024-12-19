@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.HTTP.HttpResults;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,15 +16,31 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/StackRankings", (List<List<string>> rankings, IBordaCountService bordaCountService) =>
+app.MapPost("/StackRankings", async (HttpContext httpContext, IRankingCountService rankingCountService) =>
 {
-    if (rankings == null || !rankings.Any())
-    {
-        return Results.BadRequest("Rankings cannot be null or empty.");
+    try{
+        var rankings = await httpContext.Request.ReadFromJsonAsync<List<List<string>>>();
+
+        if(rankings.Count > 1 || !rankingCountService.Any()){
+            return Results.BadRequest("Must have items to Rank");
+        }
+
+        var result = rankingCountService.CalculateRankScores(rankings);
+        return Results.Ok(result);
+    }
+});
+
+app.MapGet("/rankingResults", (IRankingCountService rankingCountService) =>{
+    var testRankings = new List<List<string>>{
+        new List<string> {"Tom Brady", "John Elway", "Troy Aikman"},
+        new List<string> {"Tom Brady", "Brett Farve", "Aaron Rodgers"},
+        new List<string> {"John Elway", "Troy Aikman", "Aaron Rodgers", "Tony Romo"}
+        new List<string> {"Troy Aikman", "Tom Brady", "Tony Romo", "Aaron Rodgers"}
     }
 
-    var result = bordaCountService.CalculateBordaScores(rankings);
-    return Results.Ok(result);
-});
+    var result = rankingCountService.CalculateRankScores(testRankings);
+    return Resutls.Ok(result);
+})
+
 
 app.Run();
