@@ -66,3 +66,9 @@
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/obj/Debug/net9.0/ref/Stackr-Api.dll
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/obj/Debug/net9.0/Stackr-Api.sourcelink.json
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/Stacks/New_Stack.json
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/DnsClient.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/MongoDB.Bson.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/MongoDB.Driver.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/SharpCompress.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/Snappier.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/ZstdSharp.dll

@@ -1,13 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Stackr_Api.Data;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using System.Collections.Generic;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var mongoConnectionString = builder.Configuration.GetSection("MongoDb:ConnectionString").Value;
+var mongoDatabaseName = builder.Configuration.GetSection("MongoDb:DatabaseName").Value;
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IRankingCountService, RankingCountService>();
+builder.Services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(mongoConnectionString));
+builder.Services.AddSingleton(serviceProvider =>
+{
+    var client = serviceProvider.GetRequiredService<IMongoClient>();
+    return client.GetDatabase(mongoDatabaseName);
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
