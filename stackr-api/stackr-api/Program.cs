@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using Stackr_Api.DTO;
+using Stackr_Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,14 +26,14 @@ app.MapPost("/CreateStack", async (HttpContext httpContext) =>{
         return Results.BadRequest("Title is required.");
     }
 
-    // File path for the new JSON file
+     // File path for the new JSON file
     var fileName = $"{requestBody.Title.Replace(" ", "_")}.json";
     var filePath = Path.Combine("Stacks", fileName);;
 
-    Directory.CreateDirectory("Stacks");
+    Directory.CreateDirectory("Stacks"); 
 
     var fileContent = JsonSerializer.Serialize(requestBody);
-    await File.WriteAllTextAsync(filePath, fileContent);
+    //await File.WriteAllTextAsync(filePath, fileContent);
 
     return Results.Ok($"Stack file created successfully: {filePath}");
 
