@@ -1,14 +1,47 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using Stackr_Api.DTO;
+using Stackr_Api.Data;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using System.Collections.Generic;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+var mongoConnectionString = builder.Configuration.GetSection("MongoDb:ConnectionString").Value;
+var mongoDatabaseName = builder.Configuration.GetSection("MongoDb:DatabaseName").Value;
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IRankingCountService, RankingCountService>();
+builder.Services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(mongoConnectionString));
+builder.Services.AddSingleton(serviceProvider =>
+{
+    var client = serviceProvider.GetRequiredService<IMongoClient>();
+    return client.GetDatabase(mongoDatabaseName);
+});
+  
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApiDocument(config =>
+{
+    config.DocumentName = "Stackr-API";
+    config.Title = "Stackr-API v1";
+    config.Version = "v1";
+});
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseOpenApi();
+    app.UseSwaggerUi(config =>
+    {
+        config.DocumentTitle = "Stackr-API";
+        config.Path = "/swagger";
+        config.DocumentPath = "/swagger/{documentName}/swagger.json";
+        config.DocExpansion = "list";
+    });
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -26,14 +59,14 @@ app.MapPost("/CreateStack", async (HttpContext httpContext) =>{
         return Results.BadRequest("Title is required.");
     }
 
-    // File path for the new JSON file
+     // File path for the new JSON file
     var fileName = $"{requestBody.Title.Replace(" ", "_")}.json";
     var filePath = Path.Combine("Stacks", fileName);;
 
-    Directory.CreateDirectory("Stacks");
+    Directory.CreateDirectory("Stacks"); 
 
     var fileContent = JsonSerializer.Serialize(requestBody);
-    await File.WriteAllTextAsync(filePath, fileContent);
+    //await File.WriteAllTextAsync(filePath, fileContent);
 
     return Results.Ok($"Stack file created successfully: {filePath}");
 
