@@ -5,6 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System.Collections.Generic;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var mongoConnectionString = builder.Configuration.GetSection("MongoDb:ConnectionString").Value;
@@ -20,7 +21,27 @@ builder.Services.AddSingleton(serviceProvider =>
     var client = serviceProvider.GetRequiredService<IMongoClient>();
     return client.GetDatabase(mongoDatabaseName);
 });
+  
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApiDocument(config =>
+{
+    config.DocumentName = "Stackr-API";
+    config.Title = "Stackr-API v1";
+    config.Version = "v1";
+});
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseOpenApi();
+    app.UseSwaggerUi(config =>
+    {
+        config.DocumentTitle = "Stackr-API";
+        config.Path = "/swagger";
+        config.DocumentPath = "/swagger/{documentName}/swagger.json";
+        config.DocExpansion = "list";
+    });
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

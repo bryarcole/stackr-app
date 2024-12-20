@@ -72,3 +72,16 @@
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/SharpCompress.dll
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/Snappier.dll
 /Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/ZstdSharp.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/Namotion.Reflection.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/Newtonsoft.Json.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NJsonSchema.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NJsonSchema.Annotations.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NJsonSchema.NewtonsoftJson.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NJsonSchema.Yaml.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NSwag.Annotations.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NSwag.AspNetCore.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NSwag.Core.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NSwag.Core.Yaml.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NSwag.Generation.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/NSwag.Generation.AspNetCore.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/bin/Debug/net9.0/YamlDotNet.dll
