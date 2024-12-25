@@ -50,8 +50,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.MapPost("/CreateStack", async (HttpContext httpContext) =>{
+//Get Stacks and save them to JSON file
+app.MapPost("/CreateStackJSON", async (HttpContext httpContext) =>{
 
     var requestBody = await JsonSerializer.DeserializeAsync<CreateStackRequest>(httpContext.Request.Body);
 
@@ -72,11 +72,12 @@ app.MapPost("/CreateStack", async (HttpContext httpContext) =>{
 
 });
 
-
-app.MapPost("/PostStackRanks", async (HttpContext httpContext,[FromServices] IRankingCountService rankingCountService) =>
+//Calculate ranks and save to JSON file
+app.MapPost("/CalculateRanksJSON", async (HttpContext httpContext,[FromServices] IRankingCountService rankingCountService) =>
 {
-    try{
-        var rankings = await httpContext.Request.ReadFromJsonAsync<List<List<string>>>();
+    try
+    {
+        var rankings = await httpContext.Request.ReadFromJsonAsync<List<string>>();
 
         if(rankings.Count < 1 || !rankings.Any()){
             return Results.BadRequest("Must have items to Rank");
@@ -90,16 +91,17 @@ app.MapPost("/PostStackRanks", async (HttpContext httpContext,[FromServices] IRa
     };
 });
 
-app.MapGet("/GetRankResults", ([FromServices] IRankingCountService rankingCountService) =>{
-    var testRankings = new List<List<string>>{
-        new List<string> {"Tom Brady", "John Elway", "Troy Aikman"},
-        new List<string> {"Tom Brady", "Brett Farve", "Aaron Rodgers"},
-        new List<string> {"John Elway", "Troy Aikman", "Aaron Rodgers", "Tony Romo"},
-        new List<string> {"Troy Aikman", "Tom Brady", "Tony Romo", "Aaron Rodgers"}
-    };
+app.MapPost("AddToStackDB", async(Stack stack, IMongoDatabase database, [FromServices] IRankingCountService rankingCountService) =>{
+    var collection = database.GetCollection<Stack>("QB-Stacks");
 
-    var result = rankingCountService.CalculateRankScores(testRankings);
-    return Results.Ok(result);
+    var rankings = rankingCountService.CalculateRankScores(stack.Ranks);
+
+    stack.StackScores = rankings;
+
+    //insert stack into db collection
+    await collection.InsertOneAsync(stack);
+
+    return Results.Ok("Stack inserted succesfully");
 });
 
 

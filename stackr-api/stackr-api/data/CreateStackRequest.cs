@@ -14,13 +14,23 @@ namespace Stackr_Api.Data
     {
         public string StackId { get; set; }
         public required string Title { get; init; }
-        public List<KeyValuePair<string, double>> StackScores { get; init; }
         public required List<string> Stack { get; init; }
     }
 
     public class Stack
     {
-        public string Id { get; set;}
-        public string Name { get; set; }
+        [BsonId]
+        public string StackId { get; set;}
+
+        public List<KeyValuePair<string, double>> StackScores { get; set; }
+
+        public required List<string> Ranks { get; init; }
+
+        [BsonElement("createdAt")] // Optional: Stores the creation timestamp
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [BsonElement("updatedAt")] // Optional: Stores the last update timestamp
+        public DateTime? UpdatedAt { get; set; }
+
     }
 }
