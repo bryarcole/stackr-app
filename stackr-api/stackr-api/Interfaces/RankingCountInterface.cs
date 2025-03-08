@@ -1,5 +1,6 @@
+namespace Stackr_Api.Models;
 
 public interface IRankingCountService
 {
-    List<KeyValuePair<string, double>> CalculateRankScores(List<string> rankings);
+    List<Rank> CalculateRankScores(List<string> rankings);
 }

@@ -1,6 +1,8 @@
+using Stackr_Api.Models;
+
 public class RankingCountService : IRankingCountService
 {
-    public List<KeyValuePair<string, double>> CalculateRankScores(List<string> rankings)
+    public List<Rank> CalculateRankScores(List<string> rankings)
     {
         var scores = new Dictionary<string, double>();
         double index = 10.0; // Start with the highest decimal score
@@ -15,6 +17,8 @@ public class RankingCountService : IRankingCountService
             index -= 0.5; // Decrement by 0.5 instead of 1
         }
 
-        return scores.OrderByDescending(kvp => kvp.Value).ToList();
+        return scores.OrderByDescending(kvp => kvp.Value)
+            .Select(kvp => new Rank { Name = kvp.Key, Score = kvp.Value })
+            .ToList();
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/Stackr-Api.csproj": {}
+    "/Users/bryarcole/repos/stackr-app/stackr-api/Stackr-Api/Stackr-Api.csproj": {}
   },
   "projects": {
-    "/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/Stackr-Api.csproj": {
+    "/Users/bryarcole/repos/stackr-app/stackr-api/Stackr-Api/Stackr-Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/Stackr-Api.csproj",
+        "projectUniqueName": "/Users/bryarcole/repos/stackr-app/stackr-api/Stackr-Api/Stackr-Api.csproj",
         "projectName": "Stackr-Api",
-        "projectPath": "/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/Stackr-Api.csproj",
+        "projectPath": "/Users/bryarcole/repos/stackr-app/stackr-api/Stackr-Api/Stackr-Api.csproj",
         "packagesPath": "/Users/bryarcole/.nuget/packages/",
-        "outputPath": "/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/obj/",
+        "outputPath": "/Users/bryarcole/repos/stackr-app/stackr-api/Stackr-Api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/bryarcole/.nuget/NuGet/NuGet.Config"
@@ -45,6 +45,14 @@
           "targetAlias": "net9.0",
           "dependencies": {
             "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[9.0.0, )"
             },

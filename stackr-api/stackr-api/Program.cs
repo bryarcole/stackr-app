@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Stackr_Api.Data;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Stackr_Api.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,17 +17,21 @@ var mongoDatabaseName = builder.Configuration.GetSection("MongoDb:DatabaseName")
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IRankingCountService, RankingCountService>();
-builder.Services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(mongoConnectionString));
-builder.Services.AddSingleton(serviceProvider =>
+builder.Services.AddDbContext<RankingCountContext>(options =>
+options.UseInMemoryDatabase("StackrDB") );
+
+/*builder.Services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(mongoConnectionString));
+ builder.Services.AddSingleton(serviceProvider =>
 {
     var client = serviceProvider.GetRequiredService<IMongoClient>();
     return client.GetDatabase(mongoDatabaseName);
 });
-  
+   */
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
 {
     config.DocumentName = "Stackr-API";
+
     config.Title = "Stackr-API v1";
     config.Version = "v1";
 });
@@ -51,16 +57,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 //Get Stacks and save them to JSON file
-app.MapPost("/CreateStackJSON", async (HttpContext httpContext) =>{
+app.MapPost("/CreateStackJSON", async (HttpContext httpContext) =>
+{
 
-    var requestBody = await JsonSerializer.DeserializeAsync<CreateStackRequest>(httpContext.Request.Body);
+    var requestBody = await JsonSerializer.DeserializeAsync<Stack>(httpContext.Request.Body);
 
-    if (requestBody == null || string.IsNullOrEmpty(requestBody.Title)){
+    if (requestBody == null || string.IsNullOrEmpty(requestBody.Name)){
         return Results.BadRequest("Title is required.");
     }
 
      // File path for the new JSON file
-    var fileName = $"{requestBody.Title.Replace(" ", "_")}.json";
+    var fileName = $"{requestBody.Name.Replace(" ", "_")}.json";
     var filePath = Path.Combine("Stacks", fileName);;
 
     Directory.CreateDirectory("Stacks"); 
@@ -91,8 +98,9 @@ app.MapPost("/CalculateRanksJSON", async (HttpContext httpContext,[FromServices]
     };
 });
 
-app.MapPost("AddToStackDB", async(Stack stack, IMongoDatabase database, [FromServices] IRankingCountService rankingCountService) =>{
-    var collection = database.GetCollection<Stack>("QB-Stacks");
+app.MapPost("AddStack/{stack}", async(Stack stack, IMongoDatabase database, [FromServices] IRankingCountService rankingCountService) =>
+{
+    var collection = database.GetCollection<Stack>("{stack}");
 
     var rankings = rankingCountService.CalculateRankScores(stack.Ranks);
 
@@ -103,6 +111,8 @@ app.MapPost("AddToStackDB", async(Stack stack, IMongoDatabase database, [FromSer
 
     return Results.Ok("Stack inserted succesfully");
 });
+
+
 
 
 app.Run();
