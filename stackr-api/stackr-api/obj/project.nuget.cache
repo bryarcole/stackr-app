@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "I0D1+/PDQI0=",
+  "dgSpecHash": "o4JjAfO5xsg=",
   "success": true,
-  "projectFilePath": "/Users/bryarcole/repos/stackr-app/stackr-api/Stackr-Api/Stackr-Api.csproj",
+  "projectFilePath": "/Users/bryarcole/repos/stackr-app/stackr-api/stackr-api/Stackr-Api.csproj",
   "expectedPackageFiles": [
     "/Users/bryarcole/.nuget/packages/dnsclient/1.6.1/dnsclient.1.6.1.nupkg.sha512",
     "/Users/bryarcole/.nuget/packages/microsoft.aspnetcore.openapi/9.0.0/microsoft.aspnetcore.openapi.9.0.0.nupkg.sha512",
