@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 
 namespace Stackr_Api.Models
 {
-    public class List
+    public class RankingList
     {
-        public int Id {get; set}
+        public int Id {get; set;}
         public int UserId {get; set; }
         public string Name {get; set; }
         public List<Ranking> Rankings {get; set;}
-
-        
     }
 }

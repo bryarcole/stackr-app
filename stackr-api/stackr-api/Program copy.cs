@@ -1,3 +1,5 @@
+/*
+
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Stackr_Api.Data;
@@ -26,7 +28,7 @@ options.UseInMemoryDatabase("StackrDB") );
     var client = serviceProvider.GetRequiredService<IMongoClient>();
     return client.GetDatabase(mongoDatabaseName);
 });
-   */
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
 {
@@ -103,3 +105,5 @@ app.MapPost("/CalculateRanksJSON", async (HttpContext httpContext,[FromServices]
 
 
 app.Run();
+
+*/
