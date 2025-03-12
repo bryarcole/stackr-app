@@ -31,16 +31,20 @@ app.MapPost("/list", async (AppDbContext db, RankingList list) =>
     return Results.Created($"/lists/{list.Id}", list);
 });
 
-app.MapGet("/lists/{Id}", async (AppDbContext db, int id) =>
-    await db.RankingLists.Include(l => l.Rankings).FirstOrDefaultAsync(l => l.Id == id)
-        is RankingList list ? Results.Ok(list) : Results.NotFound());
+app.MapGet("/lists/{Id}", async (AppDbContext db, int id) => 
+{
+    var list = await db.RankingLists.FindAsync(id);
+    if(list == null) Results.NotFound();
+
+    return Results.Ok(list);
+});
 
 app.MapPut("/list/{Id}", async (AppDbContext db, int id, RankingList updatedList)=>
 {
-    var list = await db.RankingLists.Find(id);
+    var list = await db.RankingLists.FindAsync(id);
     if(list == null) Results.NotFound();
 
-    list.Name = updatedList.GetAssignableToTypeName;
+    list = updatedList;
     await db.SaveChangesAsync();
     return Results.Ok();
 });
@@ -55,16 +59,21 @@ app.MapDelete ("/list/{id}", async (AppDbContext db, int id) =>
     return Results.Ok();
 });
 
-app.MapGet("/aggregate", async (AppDbContext db) => 
+app.MapGet("/aggregate", async (AppDbContext db, int id) => 
 {
-    var rankings = await db.Rankings.ToListAysnc();
+    var rankings = await db.Rankings.Where(r => r.ItemId == id).ToListAsync(); // Ensure this is a collection
+
     var itemScores = new Dictionary<int, int>();
 
-    foreach (var ranking in rankings)
+    foreach (var ranking in rankings) // Iterate over the rankings collection
     {
-        if(!itemScores.ContainsKey(rankings.ItenId))
+        if (!itemScores.ContainsKey(ranking.ItemId)) // Use 'ranking.ItemId'
         {
-            itemScores[ranking.ItemId] += ranking.Rank;
+            itemScores[ranking.ItemId] = ranking.Rank; // Initialize if not present
+        }
+        else
+        {
+            itemScores[ranking.ItemId] += ranking.Rank; // Add to existing score
         }
     }
 
@@ -72,11 +81,13 @@ app.MapGet("/aggregate", async (AppDbContext db) =>
         .OrderByDescending(kvp => kvp.Value)
         .Select(kvp => new 
         {
-            ItemId = kvp.Key, score = kvp.Value
+            ItemId = kvp.Key, 
+            score = kvp.Value
         });
 
     return Results.Ok(sortedRankings);
 });
+
 
 app.MapPost("/auth/register", async (AppDbContext db, User user) =>
 {
