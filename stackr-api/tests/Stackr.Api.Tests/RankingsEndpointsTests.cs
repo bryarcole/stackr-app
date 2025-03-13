@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http.Json;
 using System.Text.Json;
 using Stackr_Api.data;
 using Stackr_Api.Models;
@@ -17,7 +16,6 @@ public class RankingsEndpointsTests : IClassFixture<TestWebApplicationFactory>, 
     private readonly HttpClient _client;
     private readonly ITestOutputHelper _output;
     private readonly AppDbContext _dbContext;
-    private bool _disposed;
 
     public RankingsEndpointsTests(TestWebApplicationFactory factory, ITestOutputHelper output)
     {
@@ -52,6 +50,7 @@ public class RankingsEndpointsTests : IClassFixture<TestWebApplicationFactory>, 
         await _dbContext.Database.EnsureDeletedAsync();
         await _dbContext.Database.EnsureCreatedAsync();
 
+        // Create test data
         var item = new Item
         {
             Name = "Test Item",
@@ -82,16 +81,11 @@ public class RankingsEndpointsTests : IClassFixture<TestWebApplicationFactory>, 
         _dbContext.Rankings.Add(ranking);
         await _dbContext.SaveChangesAsync();
 
-        // Verify the data is in the database
+        // Verify data was saved
         var dbRankings = await _dbContext.Rankings
             .Include(r => r.Item)
-            .Include(r => r.RankingList)
             .ToListAsync();
         _output.WriteLine($"Rankings in database: {dbRankings.Count}");
-        foreach (var r in dbRankings)
-        {
-            _output.WriteLine($"Ranking: ItemId={r.ItemId}, Item.Name={r.Item.Name}, Rank={r.Rank}");
-        }
 
         // Act
         var response = await _client.GetAsync("/api/rankings/aggregate");
@@ -110,19 +104,6 @@ public class RankingsEndpointsTests : IClassFixture<TestWebApplicationFactory>, 
 
     public void Dispose()
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                _dbContext.Database.EnsureDeletedAsync().Wait();
-                _disposed = true;
-            }
-        }
+        _dbContext.Database.EnsureDeletedAsync().Wait();
     }
 } 

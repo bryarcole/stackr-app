@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
     {
     }
 
+    // Define the database tables
     public DbSet<User> Users { get; set; }
     public DbSet<Item> Items { get; set; }
     public DbSet<RankingList> RankingLists { get; set; }
@@ -16,17 +17,21 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Ranking>()
-            .HasOne(r => r.Item)
-            .WithMany()
-            .HasForeignKey(r => r.ItemId)
-            .IsRequired();
+        // Configure the Ranking entity relationships
+        modelBuilder.Entity<Ranking>(entity =>
+        {
+            // Each ranking must have one item
+            entity.HasOne(r => r.Item)
+                .WithMany()
+                .HasForeignKey(r => r.ItemId)
+                .IsRequired();
 
-        modelBuilder.Entity<Ranking>()
-            .HasOne(r => r.RankingList)
-            .WithMany()
-            .HasForeignKey(r => r.RankingListId)
-            .IsRequired();
+            // Each ranking must have one ranking list
+            entity.HasOne(r => r.RankingList)
+                .WithMany()
+                .HasForeignKey(r => r.RankingListId)
+                .IsRequired();
+        });
 
         base.OnModelCreating(modelBuilder);
     }

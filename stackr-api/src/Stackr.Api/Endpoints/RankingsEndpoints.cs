@@ -11,9 +11,13 @@ public static class RankingsEndpoints
     {
         group.MapGet("/aggregate", async (AppDbContext db) => 
         {
+            // Get all rankings with their related items
             var rankings = await db.Rankings
                 .Include(r => r.Item)
-                .Include(r => r.RankingList)
+                .ToListAsync();
+
+            // Group by item and calculate average rank
+            var aggregatedRankings = rankings
                 .GroupBy(r => new { r.ItemId, r.Item.Name })
                 .Select(g => new
                 {
@@ -22,16 +26,21 @@ public static class RankingsEndpoints
                     Score = g.Average(r => r.Rank)
                 })
                 .OrderByDescending(r => r.Score)
-                .ToListAsync();
+                .ToList();
 
-            return Results.Ok(rankings);
+            return Results.Ok(aggregatedRankings);
         });
 
         group.MapGet("/aggregate/{id}", async (AppDbContext db, int id) => 
         {
+            // Get rankings for a specific item
             var rankings = await db.Rankings
                 .Include(r => r.Item)
                 .Where(r => r.ItemId == id)
+                .ToListAsync();
+
+            // Group by item and calculate average rank
+            var aggregatedRankings = rankings
                 .GroupBy(r => new { r.ItemId, r.Item.Name })
                 .Select(g => new
                 {
@@ -40,9 +49,9 @@ public static class RankingsEndpoints
                     Score = g.Average(r => r.Rank)
                 })
                 .OrderByDescending(r => r.Score)
-                .ToListAsync();
+                .ToList();
 
-            return Results.Ok(rankings);
+            return Results.Ok(aggregatedRankings);
         });
 
         return group;

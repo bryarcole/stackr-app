@@ -10,27 +10,28 @@ namespace Stackr.Api.Tests;
 public class TestWebApplicationFactory : WebApplicationFactory<Program>
 {
     private static readonly string _databaseName = "TestDb";
-    private IServiceProvider _serviceProvider;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
         {
+            // Remove the existing DbContext registration
             var descriptor = services.SingleOrDefault(
                 d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
-
             if (descriptor != null)
             {
                 services.Remove(descriptor);
             }
 
+            // Add the test database
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseInMemoryDatabase(_databaseName);
             }, ServiceLifetime.Singleton);
 
-            _serviceProvider = services.BuildServiceProvider();
-            var db = _serviceProvider.GetRequiredService<AppDbContext>();
+            // Create the database
+            var serviceProvider = services.BuildServiceProvider();
+            var db = serviceProvider.GetRequiredService<AppDbContext>();
             db.Database.EnsureCreated();
         });
     }
@@ -39,9 +40,10 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
     {
         if (disposing)
         {
-            if (_serviceProvider != null)
+            var serviceProvider = Services;
+            if (serviceProvider != null)
             {
-                var db = _serviceProvider.GetRequiredService<AppDbContext>();
+                var db = serviceProvider.GetRequiredService<AppDbContext>();
                 db.Database.EnsureDeleted();
             }
         }
