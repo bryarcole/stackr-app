@@ -39,3 +39,10 @@
 /Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/obj/Debug/net8.0/stackr-api.pdb
 /Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/obj/Debug/net8.0/stackr-api.genruntimeconfig.cache
 /Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/obj/Debug/net8.0/ref/stackr-api.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/obj/Debug/net8.0/stackr-api.MvcApplicationPartsAssemblyInfo.cs
+/Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/bin/Debug/net8.0/Microsoft.OpenApi.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/bin/Debug/net8.0/appsettings.Development.json
+/Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/bin/Debug/net8.0/appsettings.json

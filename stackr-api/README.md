@@ -9,6 +9,7 @@ A .NET 8 Web API for managing ranking lists and items. This API allows users to 
 - Item management
 - Ranking aggregation
 - In-memory database for development and testing
+- Interactive API documentation with Swagger UI
 
 ## Prerequisites
 
@@ -36,6 +37,25 @@ dotnet run --project src/Stackr.Api
 The API will be available at:
 - HTTP: http://localhost:5000
 - HTTPS: https://localhost:5001
+- Swagger UI: http://localhost:5000 (root URL)
+
+## API Documentation
+
+The API documentation is available through Swagger UI at the root URL (http://localhost:5000) when running in development mode. This provides an interactive interface where you can:
+
+- View all available endpoints
+- Test endpoints directly from the browser
+- See request/response schemas
+- Authenticate using JWT tokens
+
+### Using Swagger UI
+
+1. Navigate to http://localhost:5000 in your browser
+2. Click on the "Authorize" button to enter your JWT token
+3. Browse through the available endpoints
+4. Click on any endpoint to expand it and see details
+5. Click "Try it out" to test the endpoint
+6. Fill in the required parameters and click "Execute"
 
 ## API Endpoints
 
