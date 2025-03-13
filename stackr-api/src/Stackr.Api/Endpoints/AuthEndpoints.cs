@@ -20,6 +20,11 @@ public static class AuthEndpoints
         // It returns a success message upon successful registration.
         group.MapPost("/register", async (AppDbContext db, User user) =>
         {
+            
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                return Results.BadRequest("Password is required");
+            }
             // Hash the user's password for security
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
             user.CreatedAt = DateTime.UtcNow;

@@ -425,6 +425,63 @@ public class RankingsEndpointsTests : IClassFixture<TestWebApplicationFactory>, 
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
     }
 
+    [Fact]
+    public async Task RegisterUser_ReturnsSuccess_WhenValidDataProvided()
+    {
+        // Arrange
+        // Ensure the database is in a clean state before the test
+        await _dbContext.Database.EnsureDeletedAsync();
+        await _dbContext.Database.EnsureCreatedAsync();
+
+        // Create a new user object with valid data
+        var newUser = new User
+        {
+            Username = "testuser",
+            Email = "testuser@example.com",
+            Password = "SecurePassword123"
+        };
+
+        // Act
+        // Send a POST request to the registration endpoint with the new user data
+        var response = await _client.PostAsJsonAsync("/api/auth/register", newUser);
+        var content = await response.Content.ReadAsStringAsync();
+        _output.WriteLine($"Response content: {content}");
+
+        // Assert
+        // Verify that the response indicates success
+        Assert.True(response.IsSuccessStatusCode);
+        // Optionally, verify that the user was added to the database
+        var createdUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == newUser.Email);
+        Assert.NotNull(createdUser);
+        Assert.Equal(newUser.Username, createdUser?.Username);
+        Assert.NotEqual(newUser.Password, createdUser?.PasswordHash); // Ensure password is hashed
+    }
+
+    [Fact]
+    public async Task RegisterUser_ReturnsBadRequest_WhenPasswordIsMissing()
+    {
+        // Arrange
+        // Ensure the database is in a clean state before the test
+        await _dbContext.Database.EnsureDeletedAsync();
+        await _dbContext.Database.EnsureCreatedAsync();
+
+        // Create a new user object with missing password
+        var newUser = new User
+        {
+            Username = "testuser",
+            Email = "testuser@example.com",
+            Password = "" // Missing password
+        };
+
+        // Act
+        // Send a POST request to the registration endpoint with the new user data
+        var response = await _client.PostAsJsonAsync("/api/auth/register", newUser);
+
+        // Assert
+        // Verify that the response indicates a bad request due to missing password
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
     public void Dispose()
     {
         _dbContext.Database.EnsureDeletedAsync().Wait();
