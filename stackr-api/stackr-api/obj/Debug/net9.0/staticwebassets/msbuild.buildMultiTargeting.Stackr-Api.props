@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/Stackr-Api.props" />
-</Project>

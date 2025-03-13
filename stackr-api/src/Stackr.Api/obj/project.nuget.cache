@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "dgSpecHash": "o2OR/s5Vnyk=",
+  "success": true,
+  "projectFilePath": "/Users/bryarcole/repos/stackr-app/stackr-api/src/Stackr.Api/stackr-api.csproj",
+  "expectedPackageFiles": [
+    "/Users/bryarcole/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/8.0.2/microsoft.aspnetcore.authentication.jwtbearer.8.0.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.entityframeworkcore/8.0.2/microsoft.entityframeworkcore.8.0.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.entityframeworkcore.abstractions/8.0.2/microsoft.entityframeworkcore.abstractions.8.0.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.entityframeworkcore.analyzers/8.0.2/microsoft.entityframeworkcore.analyzers.8.0.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.entityframeworkcore.inmemory/8.0.2/microsoft.entityframeworkcore.inmemory.8.0.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.extensions.caching.abstractions/8.0.0/microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.extensions.caching.memory/8.0.0/microsoft.extensions.caching.memory.8.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.identitymodel.abstractions/7.1.2/microsoft.identitymodel.abstractions.7.1.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.identitymodel.jsonwebtokens/7.1.2/microsoft.identitymodel.jsonwebtokens.7.1.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.identitymodel.logging/7.1.2/microsoft.identitymodel.logging.7.1.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.identitymodel.protocols/7.1.2/microsoft.identitymodel.protocols.7.1.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.identitymodel.protocols.openidconnect/7.1.2/microsoft.identitymodel.protocols.openidconnect.7.1.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/microsoft.identitymodel.tokens/7.1.2/microsoft.identitymodel.tokens.7.1.2.nupkg.sha512",
+    "/Users/bryarcole/.nuget/packages/system.identitymodel.tokens.jwt/7.1.2/system.identitymodel.tokens.jwt.7.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

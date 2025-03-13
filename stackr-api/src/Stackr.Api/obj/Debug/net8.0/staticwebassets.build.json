@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "JKbf6K7As00Qof5KSnnpm3y9Za2eLYfvYHRhsLQMcXM=",
+  "Source": "stackr-api",
+  "BasePath": "_content/stackr-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
