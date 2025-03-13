@@ -1,0 +1,7 @@
+/Users/bryarcole/repos/stackr-app/stackr-api/obj/Debug/net8.0/stackr-api.csproj.AssemblyReference.cache
+/Users/bryarcole/repos/stackr-app/stackr-api/obj/Debug/net8.0/stackr-api.GeneratedMSBuildEditorConfig.editorconfig
+/Users/bryarcole/repos/stackr-app/stackr-api/obj/Debug/net8.0/stackr-api.AssemblyInfoInputs.cache
+/Users/bryarcole/repos/stackr-app/stackr-api/obj/Debug/net8.0/stackr-api.AssemblyInfo.cs
+/Users/bryarcole/repos/stackr-app/stackr-api/obj/Debug/net8.0/stackr-api.csproj.CoreCompileInputs.cache
+/Users/bryarcole/repos/stackr-app/stackr-api/obj/Debug/net8.0/stackr-api.MvcApplicationPartsAssemblyInfo.cache
+/Users/bryarcole/repos/stackr-app/stackr-api/obj/Debug/net8.0/stackr-api.sourcelink.json
