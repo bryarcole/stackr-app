@@ -27,12 +27,15 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseInMemoryDatabase(_databaseName);
-            }, ServiceLifetime.Singleton);
+            });
 
             // Create the database
-            var serviceProvider = services.BuildServiceProvider();
-            var db = serviceProvider.GetRequiredService<AppDbContext>();
-            db.Database.EnsureCreated();
+            var sp = services.BuildServiceProvider();
+            using (var scope = sp.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.EnsureCreated();
+            }
         });
     }
 
@@ -40,13 +43,18 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
     {
         if (disposing)
         {
-            var serviceProvider = Services;
-            if (serviceProvider != null)
+            try
             {
-                var db = serviceProvider.GetRequiredService<AppDbContext>();
-                db.Database.EnsureDeleted();
+                using var scope = Services.CreateScope();
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                context.Database.EnsureDeleted();
+            }
+            catch (ObjectDisposedException)
+            {
+                // If the service provider is already disposed, we can safely ignore this
             }
         }
+
         base.Dispose(disposing);
     }
 } 

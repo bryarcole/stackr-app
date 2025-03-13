@@ -432,3 +432,9 @@
 /Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/obj/Debug/net9.0/Stackr.Api.Tests.pdb
 /Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/obj/Debug/net9.0/Stackr.Api.Tests.genruntimeconfig.cache
 /Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/obj/Debug/net9.0/ref/Stackr.Api.Tests.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/bin/Debug/net9.0/appsettings.Development.json
+/Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/bin/Debug/net9.0/appsettings.json
+/Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/bin/Debug/net9.0/Microsoft.OpenApi.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/bryarcole/repos/stackr-app/stackr-api/tests/Stackr.Api.Tests/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll

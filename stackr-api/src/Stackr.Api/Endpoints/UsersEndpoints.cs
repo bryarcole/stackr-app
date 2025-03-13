@@ -12,7 +12,11 @@ public static class UsersEndpoints
         {
             var users = await db.Users.ToListAsync();
             return Results.Ok(users);
-        });
+        })
+        .WithName("GetUsers")
+        .WithTags("Users")
+        .WithSummary("Get all users")
+        .WithDescription("Retrieves a list of all users in the system.");
 
         group.MapGet("/{id}", async (int id, AppDbContext db) =>
         {
@@ -20,7 +24,11 @@ public static class UsersEndpoints
             if (user == null)
                 return Results.NotFound();
             return Results.Ok(user);
-        });
+        })
+        .WithName("GetUser")
+        .WithTags("Users")
+        .WithSummary("Get user by ID")
+        .WithDescription("Retrieves a specific user by their ID.");
 
         group.MapPost("/", async (User user, AppDbContext db) =>
         {
@@ -28,7 +36,11 @@ public static class UsersEndpoints
             db.Users.Add(user);
             await db.SaveChangesAsync();
             return Results.Created($"/api/users/{user.Id}", user);
-        });
+        })
+        .WithName("CreateUser")
+        .WithTags("Users")
+        .WithSummary("Create a new user")
+        .WithDescription("Creates a new user with the provided information.");
 
         group.MapPut("/{id}", async (int id, User user, AppDbContext db) =>
         {
@@ -42,7 +54,11 @@ public static class UsersEndpoints
 
             await db.SaveChangesAsync();
             return Results.NoContent();
-        });
+        })
+        .WithName("UpdateUser")
+        .WithTags("Users")
+        .WithSummary("Update a user")
+        .WithDescription("Updates an existing user's information.");
 
         group.MapDelete("/{id}", async (int id, AppDbContext db) =>
         {
@@ -53,7 +69,11 @@ public static class UsersEndpoints
             db.Users.Remove(user);
             await db.SaveChangesAsync();
             return Results.NoContent();
-        });
+        })
+        .WithName("DeleteUser")
+        .WithTags("Users")
+        .WithSummary("Delete a user")
+        .WithDescription("Deletes a user from the system.");
 
         return group;
     }
