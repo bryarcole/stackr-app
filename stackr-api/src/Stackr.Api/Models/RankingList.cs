@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Stackr_Api.Models;
 
-public class RankingList
+public class RankList
 {
     public int Id { get; set; }
     
@@ -11,6 +11,12 @@ public class RankingList
     
     [Required]
     public string Description { get; set; } = string.Empty;
+    
+    [Required]
+    public int UserId { get; set; }
+    
+    [Required]
+    public User User { get; set; } = null!;
     
     public DateTime CreatedAt { get; set; }
 } 

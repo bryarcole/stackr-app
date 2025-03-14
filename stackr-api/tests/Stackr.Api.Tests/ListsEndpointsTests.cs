@@ -31,7 +31,7 @@ public class ListsEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         await _dbContext.Database.EnsureDeletedAsync();
         await _dbContext.Database.EnsureCreatedAsync();
 
-        var newList = new RankingList
+        var newList = new RankList
         {
             Name = "Test List",
             Description = "Test Description",
@@ -40,7 +40,7 @@ public class ListsEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Act
         var response = await _client.PostAsJsonAsync("/api/lists", newList);
-        var createdList = await response.Content.ReadFromJsonAsync<RankingList>();
+        var createdList = await response.Content.ReadFromJsonAsync<RankList>();
 
         // Assert
         Assert.True(response.IsSuccessStatusCode);
@@ -70,7 +70,7 @@ public class ListsEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         await _dbContext.Database.EnsureDeletedAsync();
         await _dbContext.Database.EnsureCreatedAsync();
 
-        var updatedList = new RankingList
+        var updatedList = new RankList
         {
             Id = 999,
             Name = "Updated List",

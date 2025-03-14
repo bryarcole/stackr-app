@@ -13,7 +13,7 @@ public static class ListsEndpoints
         group.MapGet("/", async (AppDbContext db) =>
         {
             // Retrieve all ranking lists from the database
-            var lists = await db.RankingLists.ToListAsync();
+            var lists = await db.RankLists.ToListAsync();
             return Results.Ok(lists);
         })
         .WithName("GetLists")
@@ -26,7 +26,7 @@ public static class ListsEndpoints
         group.MapGet("/{id}", async (int id, AppDbContext db) =>
         {
             // Find the ranking list by ID
-            var list = await db.RankingLists.FindAsync(id);
+            var list = await db.RankLists.FindAsync(id);
             if (list == null)
                 return Results.NotFound();
             return Results.Ok(list);
@@ -38,11 +38,11 @@ public static class ListsEndpoints
 
         // Endpoint to create a new ranking list
         // This endpoint accepts a RankingList object and creates a new list in the database.
-        group.MapPost("/", async (RankingList list, AppDbContext db) =>
+        group.MapPost("/", async (RankList list, AppDbContext db) =>
         {
             // Set the creation date and add the list to the database
             list.CreatedAt = DateTime.UtcNow;
-            db.RankingLists.Add(list);
+            db.RankLists.Add(list);
             await db.SaveChangesAsync();
             return Results.Created($"/lists/{list.Id}", list);
         })
@@ -53,10 +53,10 @@ public static class ListsEndpoints
 
         // Endpoint to update an existing ranking list
         // This endpoint accepts a RankingList object and updates the specified list in the database.
-        group.MapPut("/{id}", async (int id, RankingList list, AppDbContext db) =>
+        group.MapPut("/{id}", async (int id, RankList list, AppDbContext db) =>
         {
             // Find the existing ranking list by ID
-            var existingList = await db.RankingLists.FindAsync(id);
+            var existingList = await db.RankLists.FindAsync(id);
             if (existingList == null)
                 return Results.NotFound();
 
@@ -76,12 +76,12 @@ public static class ListsEndpoints
         group.MapDelete("/{id}", async (int id, AppDbContext db) =>
         {
             // Find the ranking list by ID
-            var list = await db.RankingLists.FindAsync(id);
+            var list = await db.RankLists.FindAsync(id);
             if (list == null)
                 return Results.NotFound();
 
             // Remove the list from the database
-            db.RankingLists.Remove(list);
+            db.RankLists.Remove(list);
             await db.SaveChangesAsync();
             return Results.NoContent();
         })

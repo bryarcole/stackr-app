@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Stackr_Api.Models;
 
-public class Ranking
+public class Stack
 {
     public int Id { get; set; }
     
@@ -13,10 +13,10 @@ public class Ranking
     public Item Item { get; set; } = null!;
     
     [Required]
-    public int RankingListId { get; set; }
+    public int RankListId { get; set; }
     
     [Required]
-    public RankingList RankingList { get; set; } = null!;
+    public RankList RankList { get; set; } = null!;
     
     [Required]
     public int Rank { get; set; }
