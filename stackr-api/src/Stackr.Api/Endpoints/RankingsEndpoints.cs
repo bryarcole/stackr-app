@@ -24,20 +24,20 @@ public static class RankingsEndpoints
                 return Results.BadRequest("At least one item is required");
 
             // Check if a list with this title already exists
-            var existingList = await db.RankingLists
+            var existingList = await db.RankLists
                 .FirstOrDefaultAsync(l => l.Name.ToLower() == submission.Title.ToLower());
 
-            RankingList list;
+            RankList list;
             if (existingList == null)
             {
                 // Create a new list if it doesn't exist
-                list = new RankingList
+                list = new RankList
                 {
                     Name = submission.Title,
                     Description = submission.Description,
                     CreatedAt = DateTime.UtcNow
                 };
-                db.RankingLists.Add(list);
+                db.RankLists.Add(list);
                 await db.SaveChangesAsync();
             }
             else
@@ -48,7 +48,7 @@ public static class RankingsEndpoints
                 await db.SaveChangesAsync();
             }
 
-            // Iterate over each item in the submission to create or update items and rankings
+            // Iterate over each item in the submission to create or update items and stacks
             foreach (var item in submission.Items)
             {
                 // Check if the item already exists in the database
@@ -74,15 +74,14 @@ public static class RankingsEndpoints
                     dbItem = existingItem;
                 }
 
-                // Create a new ranking for the item
-                var ranking = new Ranking
+                // Create a new stack for the item
+                var stack = new Stack
                 {
                     ItemId = dbItem.Id,
-                    RankingListId = list.Id,
-                    Rank = item.Rank,
+                    RankListId = list.Id,
                     CreatedAt = DateTime.UtcNow
                 };
-                db.Rankings.Add(ranking);
+                db.Stacks.Add(stack);
             }
 
             // Save all changes to the database
@@ -90,14 +89,14 @@ public static class RankingsEndpoints
             return Results.Created($"/api/rankings/lists/{list.Id}", list);
         })
         .WithName("SubmitRankedList")
-        .WithTags("Ranking Lists")
-        .WithSummary("Submit a complete ranked list")
-        .WithDescription("Submits a complete ranked list. If a list with the same title exists, adds the rankings to that list. Otherwise, creates a new list.");
+        .WithTags("Rank Lists")
+        .WithSummary("Submit a complete rank list")
+        .WithDescription("Submits a complete rank list. If a list with the same title exists, adds the stacks to that list. Otherwise, creates a new list.");
 
-        // Endpoint to create a new ranking list
-        // This endpoint accepts a RankingList object and creates a new list in the database.
+        // Endpoint to create a new rank list
+        // This endpoint accepts a RankList object and creates a new list in the database.
         // It requires a non-empty name for the list.
-        group.MapPost("/lists", async (AppDbContext db, RankingList list) =>
+        group.MapPost("/lists", async (AppDbContext db, RankList list) =>
         {
             // Validate the list
             if (string.IsNullOrEmpty(list.Name))
@@ -105,110 +104,110 @@ public static class RankingsEndpoints
 
             // Set the creation date and add the list to the database
             list.CreatedAt = DateTime.UtcNow;
-            db.RankingLists.Add(list);
+            db.RankLists.Add(list);
             await db.SaveChangesAsync();
 
             // Return the created list with its ID
             return Results.Created($"/api/rankings/lists/{list.Id}", list);
         })
-        .WithName("CreateRankingList")
-        .WithTags("Ranking Lists")
-        .WithSummary("Create a new ranking list")
-        .WithDescription("Creates a new ranking list with the provided name and description. The list can then be used to rank items.");
+        .WithName("CreateRankList")
+        .WithTags("Rank Lists")
+        .WithSummary("Create a new rank list")
+        .WithDescription("Creates a new rank list with the provided name and description. The list can then be used to rank items.");
 
-        // Endpoint to add items to an existing ranking list
-        // This endpoint accepts a list of Ranking objects and adds them to the specified ranking list.
+        // Endpoint to add items to an existing rank list
+        // This endpoint accepts a list of Stack objects and adds them to the specified rank list.
         // It checks that the list exists and that each item is valid and exists in the database.
-        group.MapPost("/lists/{listId}/items", async (AppDbContext db, int listId, List<Ranking> rankings) =>
+        group.MapPost("/lists/{listId}/items", async (AppDbContext db, int listId, List<Stack> stacks) =>
         {
             // Validate the list exists
-            var list = await db.RankingLists.FindAsync(listId);
+            var list = await db.RankLists.FindAsync(listId);
             if (list == null)
                 return Results.NotFound("List not found");
 
-            // Validate each ranking
-            foreach (var ranking in rankings)
+            // Validate each stack
+            foreach (var stack in stacks)
             {
-                if (ranking.ItemId <= 0 || ranking.Rank <= 0)
-                    return Results.BadRequest("Invalid ranking data");
+                if (stack.ItemId <= 0 || stack.Rank <= 0)
+                    return Results.BadRequest("Invalid stack data");
 
                 // Verify item exists
-                var item = await db.Items.FindAsync(ranking.ItemId);
+                var item = await db.Items.FindAsync(stack.ItemId);
                 if (item == null)
-                    return Results.NotFound($"Item with ID {ranking.ItemId} not found");
+                    return Results.NotFound($"Item with ID {stack.ItemId} not found");
 
-                // Set the ranking list ID and creation date
-                ranking.RankingListId = listId;
-                ranking.CreatedAt = DateTime.UtcNow;
-                db.Rankings.Add(ranking);
+                // Set the rank list ID and creation date
+                stack.RankListId = listId;
+                stack.CreatedAt = DateTime.UtcNow;
+                db.Stacks.Add(stack);
             }
 
             // Save all changes to the database
             await db.SaveChangesAsync();
-            return Results.Ok("Rankings added successfully");
+            return Results.Ok("Stacks added successfully");
         })
-        .WithName("AddItemsToList")
-        .WithTags("Ranking Lists")
-        .WithSummary("Add items to a ranking list")
-        .WithDescription("Adds one or more items to a ranking list with their respective ranks. Each item must exist in the system.");
+        .WithName("AddItemsToRankList")
+        .WithTags("Rank Lists")
+        .WithSummary("Add items to a rank list")
+        .WithDescription("Adds one or more items to a rank list with their respective ranks. Each item must exist in the system.");
 
-        // Endpoint to get aggregate rankings across all lists
-        // This endpoint retrieves all rankings, groups them by item, and calculates the average rank.
+        // Endpoint to get aggregate stacks across all lists
+        // This endpoint retrieves all stacks, groups them by item, and calculates the average rank.
         // It returns a list of AggregateRanking objects with statistics for each item.
         group.MapGet("/aggregate", async (AppDbContext db) => 
         {
-            // Get all rankings with their related items and lists
-            var rankings = await db.Rankings
+            // Get all stacks with their related items and lists
+            var stacks = await db.Stacks
                 .Include(r => r.Item)
-                .Include(r => r.RankingList)
+                .Include(r => r.RankList)
                 .ToListAsync();
 
             // Group by item and calculate weighted average rank
-            var aggregatedRankings = rankings
+            var aggregatedStacks = stacks
                 .GroupBy(r => new { r.ItemId, r.Item.Name })
                 .Select(g => new AggregateRanking
                 {
                     ItemId = g.Key.ItemId,
                     Name = g.Key.Name,
                     Score = g.Average(r => r.Rank),
-                    ListCount = g.Select(r => r.RankingListId).Distinct().Count(),
+                    ListCount = g.Select(r => r.RankListId).Distinct().Count(),
                     TotalRankings = g.Count()
                 })
                 .OrderByDescending(r => r.Score)
                 .ToList();
 
-            // Return the aggregated rankings
-            return Results.Ok(aggregatedRankings);
+            // Return the aggregated stacks
+            return Results.Ok(aggregatedStacks);
         })
-        .WithName("GetAggregateRankings")
-        .WithTags("Aggregate Rankings")
-        .WithSummary("Get aggregate rankings")
-        .WithDescription("Retrieves aggregated rankings across all lists, including weighted average scores and statistics.");
+        .WithName("GetAggregateStacks")
+        .WithTags("Aggregate Stacks")
+        .WithSummary("Get aggregate stacks")
+        .WithDescription("Retrieves aggregated stacks across all lists, including weighted average scores and statistics.");
 
-        // Endpoint to get rankings for a specific list
-        // This endpoint retrieves all rankings for a specified list, ordered by rank.
-        // It checks that the list exists and returns a list of Ranking objects.
+        // Endpoint to get stacks for a specific list
+        // This endpoint retrieves all stacks for a specified list, ordered by rank.
+        // It checks that the list exists and returns a list of Stack objects.
         group.MapGet("/lists/{listId}", async (AppDbContext db, int listId) => 
         {
             // Check if the list exists
-            var list = await db.RankingLists.FindAsync(listId);
+            var list = await db.RankLists.FindAsync(listId);
             if (list == null)
                 return Results.NotFound("List not found");
 
-            // Retrieve and order the rankings by rank
-            var rankings = await db.Rankings
+            // Retrieve and order the stacks by rank
+            var stacks = await db.Stacks
                 .Include(r => r.Item)
-                .Where(r => r.RankingListId == listId)
+                .Where(r => r.RankListId == listId)
                 .OrderBy(r => r.Rank)
                 .ToListAsync();
 
-            // Return the rankings for the list
-            return Results.Ok(rankings);
+            // Return the stacks for the list
+            return Results.Ok(stacks);
         })
-        .WithName("GetListRankings")
-        .WithTags("Ranking Lists")
-        .WithSummary("Get rankings for a specific list")
-        .WithDescription("Retrieves all rankings for a specific list, ordered by rank.");
+        .WithName("GetListStacks")
+        .WithTags("Rank Lists")
+        .WithSummary("Get stacks for a specific list")
+        .WithDescription("Retrieves all stacks for a specific list, ordered by rank.");
 
         return group;
     }
